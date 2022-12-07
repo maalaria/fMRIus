@@ -1,0 +1,37 @@
+# MTloc 
+MotionStatic:  1 -1
+StaticMotion:  -1 1
+
+# ec
+EyesCubes:     -1 -1 -1 1 1 1
+CubesEyes:     1 1 1 -1 -1 -1
+Eyes1Eyes3:    0 0 0 1 0 -1
+Cubes1Cubes3:  1 0 -1 0 0 0
+
+# co
+Cubes1Cubes3   1 0 -1
+
+# eic
+Eyes1Cubes:    -1 -1 -1 1 0 0 0
+CubesEyes1:    1 1 1 -1 0 0 0
+Eyes1Cubes1:   -1 0 0 1 0 0 0
+Cubes1Eyes1:   1 0 0 -1 0 0 0
+Eyes1Iris:     0 0 0 1 -1 -1 -1
+IrisEyes1:     0 0 0 -1 1 1 1
+CubesIris:     1 1 1 0 -1 -1 -1
+IrisCubes:     -1 -1 -1 0 1 1 1
+Cubes1Iris:    1 0 0 0 -1 -1 -1
+IrisCubes1:    -1 0 0 0 1 1 1
+Cubes1Iris1:   1 0 0 0 -1 0 0
+Iris1Cubes1:   -1 0 0 0 1 0 0
+Cubes1Cubes3:  1 0 -1 0 0 0 0
+Iris1Iris3:    0 0 0 0 1 0 -1
+Eyes1Iris1:    0 0 0 1 -1 0 0
+Iris1Eyes1:    0 0 0 -1 1 0 0
+Eyes1Cubes1:   -1 0 0 1 0 0 0
+Cubes1Eyes1:   1 0 0 -1 0 0 0
+Iris1Cubes1:   -1 0 0 0 1 0 0
+Cubes1Iris1:   1 0 0 0 -1 0 0
+Eyes
+
+Cubes_1 Cubes_2 Cubes_3 Eyes_1 Iris_1 Iris_2 Iris_3
