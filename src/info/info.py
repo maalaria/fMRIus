@@ -1,7 +1,10 @@
 import os
 from os.path import join as opj
-import pandas as pd
+from os.path import isdir
+# import pandas as pd
 from sklearn.utils import Bunch
+import glob
+import numpy as np
 
 
 colors = Bunch(
@@ -10,25 +13,52 @@ colors = Bunch(
 
 ### SET FIRST ###
 data_paths = Bunch(
-    root_dir='',
-    bids_dir='',
+    root_dir='/media/marius/data/experimental_data/arrow_gaze',
+    bids_dir='/media/marius/data/experimental_data/arrow_gaze/participants_data_BIDS',
     qc_dir='',
-    derivatives_dir='',
-    fmriprep_dir='',
-    scratch_dir='',
-    results_dir='',
+    derivatives_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives',
+    fmriprep_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives/fmriprep',
+    scratch_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives/scratch',
+    results_dir='/mnt/fileserv1_neurologie/Research_groups/mgoerner/projects/scientific/gaze-arrows/results/third_analysis',
     rois_dir='',
 )
 
 
 ### specify existing runs in /fmriprep/[sub]/func/ in the order of the experiment
-func_run_dict = {
-    'SUBJECT': {
-        'SESSION': {
-            'TASK': ['RUN']
-        }
-    }
-}
+# func_run_dict = {
+#     'sub-01': {
+#         'ses-scanner': {
+#             'avg': ['run-01']
+#         }
+#     }
+# }
+
+func_run_dict = {}
+
+sub_dirs = [el for el in glob.glob(opj(data_paths.fmriprep_dir, '*')) if isdir(el) and 'sub' in el]
+sub_dirs.sort()
+
+for s_ in sub_dirs:
+    func_run_dict[s_.split('/')[-1]] = {}
+
+    ses_dirs = [el for el in glob.glob(opj(s_, '*')) if isdir(el) and 'ses' in el]
+
+    for ses_ in ses_dirs:
+        func_run_dict[s_.split('/')[-1]][ses_.split('/')[-1]] = {}
+
+        ses_files = glob.glob(opj(ses_, 'func/*_bold.nii*'))
+
+        task_runs = np.unique(
+            ['_'.join([el1 for el1 in el.split('_') if 'task' in el1 or 'run' in el1]) for el in ses_files])
+        task_runs = [el.split('_') for el in task_runs]
+
+        for tr_ in task_runs:
+            if not tr_[0] in func_run_dict[s_.split('/')[-1]][ses_.split('/')[-1]]:
+
+                func_run_dict[s_.split('/')[-1]][ses_.split('/')[-1]][tr_[0]] = []
+                func_run_dict[s_.split('/')[-1]][ses_.split('/')[-1]][tr_[0]].append(tr_[1])
+            else:
+                func_run_dict[s_.split('/')[-1]][ses_.split('/')[-1]][tr_[0]].append(tr_[1])
 
 
 ############################
@@ -174,7 +204,7 @@ def get_contrast_dict(task_id):
             name='CONTRAST',
             pos=[],
             neg=[]
-        )
+        ))
 
         ### EXAMPLE ***
         # gc=Bunch(
