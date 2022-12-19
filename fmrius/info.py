@@ -6,6 +6,8 @@ from sklearn.utils import Bunch
 import glob
 import numpy as np
 
+
+### define color palette used throughout the project
 colors = Bunch(
     ###
 )
@@ -14,12 +16,11 @@ colors = Bunch(
 data_paths = Bunch(
     root_dir='/media/marius/data/experimental_data/arrow_gaze',
     bids_dir='/media/marius/data/experimental_data/arrow_gaze/participants_data_BIDS',
-    qc_dir='',
     derivatives_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives',
     fmriprep_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives/fmriprep',
     scratch_dir='/media/marius/data/experimental_data/arrow_gaze/derivatives/scratch',
     results_dir='/mnt/fileserv1_neurologie/Research_groups/mgoerner/projects/scientific/gaze-arrows/results/third_analysis',
-    rois_dir='',
+    rois_dir='/mnt/fileserv1_neurologie/Research_groups/mgoerner/projects/scientific/gaze-arrows/analysis/third_analysis/fMRIus/fmrius/ROIs',
 )
 
 
@@ -31,9 +32,7 @@ data_paths = Bunch(
 #         }
 #     }
 # }
-
 func_run_dict = {}
-
 sub_dirs = [el for el in glob.glob(opj(data_paths.fmriprep_dir, '*')) if isdir(el) and 'sub' in el]
 sub_dirs.sort()
 
@@ -153,6 +152,7 @@ def get_subject_data(
         func_runs_ = list(func_runs[sub_id])
     else:
         func_runs_ = list(func_runs[sub_id][session])
+
     #
     for task_id in [el for el in func_runs_ if not el == 'experimental_order']:
         subject_data['func'][task_id] = Bunch()
@@ -161,8 +161,9 @@ def get_subject_data(
             task_runs_ = func_runs[sub_id][session][task_id]
         else:
             task_runs_ = func_runs[sub_id][task_id]
+
         for fr in task_runs_:
-            run_files = [frf for frf in func_dir if fr in frf and 'task-'+task_id in frf]
+            run_files = [frf for frf in func_dir if fr in frf and task_id in frf]
             subject_data['func'][task_id][fr] = Bunch()
 
             #
@@ -177,9 +178,9 @@ def get_subject_data(
                 if 'preproc_bold.nii' in ff:
                     subject_data['func'][task_id][fr]['img'] = opj(
                         dirs.fmriprep_dir, sub_id, session, 'func', ff)
-                if 'preprocCleaned_bold.nii' in ff:
-                    subject_data['func'][task_id][fr]['img_cleaned'] = opj(
-                        dirs.fmriprep_dir, sub_id, session, 'func', ff)
+                # if 'preprocCleaned_bold.nii' in ff:
+                #     subject_data['func'][task_id][fr]['img_cleaned'] = opj(
+                #         dirs.fmriprep_dir, sub_id, session, 'func', ff)
                 if ('confounds_timeseries.tsv' in ff) or ('confounds_regressors.tsv' in ff):
                     subject_data['func'][task_id][fr]['confounds'] = opj(
                         dirs.fmriprep_dir, sub_id, session, 'func', ff)

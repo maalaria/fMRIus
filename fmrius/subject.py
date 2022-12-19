@@ -52,7 +52,7 @@ class Subject:
         self.tasks = list(np.unique(
             [fn.split('_')[2][5:] for fn in
              listdir(opj(dirs.fmriprep_dir, sub_id, session, 'func')) if 'task' in fn.split('_')[2]]))   # get available tasks
-        self.info = info.get_subject_data(sub_id, session, dirs)
+        self.info = fmrius.info.get_subject_data(sub_id, session, dirs)
         self.info.ROIs = Bunch()
         self.univariate = Bunch()
         self.univariate.model = Bunch()
@@ -85,7 +85,7 @@ class Subject:
             self):
 
         results_dir = opj(
-            info.data_paths.results_dir,
+            fmrius.info.data_paths.results_dir,
             self.subject_type,
             'activations/univariate_contrasts',
             self.ID)
@@ -150,24 +150,24 @@ class Subject:
 
     def load_rois(self):
 
-        roi_types = listdir(info.data_paths.rois_dir)
+        roi_types = listdir(fmrius.info.data_paths.rois_dir)
 
         for roi_type in roi_types:
 
             if roi_type == 'individual':
 
-                if os.path.isdir(opj(info.data_paths.rois_dir, roi_type, self.ID)):
+                if os.path.isdir(opj(fmrius.info.data_paths.rois_dir, roi_type, self.ID)):
 
                     # anatomical or functional
                     roi_type2 = listdir(
-                        opj(info.data_paths.rois_dir, roi_type, self.ID))
+                        opj(fmrius.info.data_paths.rois_dir, roi_type, self.ID))
 
                     # iterate 'anatomical', 'functional'
                     for rt2 in roi_type2:
 
                         self.info.ROIs[rt2] = Bunch()
                         rois_ = listdir(
-                            opj(info.data_paths.rois_dir, roi_type, self.ID, rt2))
+                            opj(fmrius.info.data_paths.rois_dir, roi_type, self.ID, rt2))
 
                         for img in [el for el in rois_ if 'nii' in el]:
                             roi_name = img.split('_')[-1].split('-')[0]
@@ -176,7 +176,7 @@ class Subject:
                                 self.info.ROIs[rt2][roi_name] = []
 
                             self.info.ROIs[rt2][roi_name].append(
-                                opj(info.data_paths.rois_dir, roi_type, self.ID, rt2, img))
+                                opj(fmrius.info.data_paths.rois_dir, roi_type, self.ID, rt2, img))
 
                         for kk_ in self.info.ROIs[rt2].keys():
                             self.info.ROIs[rt2][kk_].sort(key=lambda x: x.split('-')[-1])
@@ -186,7 +186,7 @@ class Subject:
             else:
                 self.info.ROIs[roi_type] = Bunch()
 
-                rois_ = listdir(opj(info.data_paths.rois_dir, roi_type))
+                rois_ = listdir(opj(fmrius.info.data_paths.rois_dir, roi_type))
 
                 for img in [el for el in rois_ if 'nii' in el]:
                     # roi_name = img.split('_')[0]+'_'+img.split('_')[1]
@@ -196,7 +196,7 @@ class Subject:
                         self.info.ROIs[roi_type][roi_name] = []
 
                     self.info.ROIs[roi_type][roi_name].append(
-                        opj(info.data_paths.rois_dir, roi_type, img))
+                        opj(fmrius.info.data_paths.rois_dir, roi_type, img))
 
                 # sort ROIs such that left in always first element in array
                 for kk_ in self.info.ROIs[roi_type].keys():
@@ -388,10 +388,10 @@ class Subject:
                         #
                         # compute and save contrasts
                         if fname_extension in ['cubes', 'random', 'rotation', 'V', 'H']:
-                            contrast_dict = info.get_contrast_dict(
+                            contrast_dict = fmrius.info.get_contrast_dict(
                                 task_id_+fname_extension)
                         else:
-                            contrast_dict = info.get_contrast_dict(task_id_.split('_')[0]) # split for cases when task_id is for example 'ec_run-1'
+                            contrast_dict = fmrius.info.get_contrast_dict(task_id_.split('_')[0]) # split for cases when task_id is for example 'ec_run-1'
 
                         # subselect contrasts if contrast_ given
                         contrast_dict_ = {}
@@ -573,7 +573,7 @@ class Subject:
         if store_:
 
             ##
-            pdf_dir_ = opj(info.data_paths.results_dir,
+            pdf_dir_ = opj(fmrius.info.data_paths.results_dir,
                          'from_nilearn/univariate_contrasts',
                          self.ID,
                          'pdfs')
@@ -962,9 +962,9 @@ class Subject:
 
                 f2.add_contours(
                   mask_collector[kk]['left_mask'],
-                  colors=info.colors[color_selector],
+                  colors=fmrius.info.colors[color_selector],
                   filled=True)
-                legend_patches.append(mpatches.Patch(color=tuple(int(info.colors[color_selector].strip(
+                legend_patches.append(mpatches.Patch(color=tuple(int(fmrius.info.colors[color_selector].strip(
                   '#')[i:i+2], 16)/255 for i in (0, 2, 4)), label=color_selector))
 
             for kk in np.array(name_collector_right)[np.argsort(np.multiply(size_collector_left, -1))]:
@@ -982,7 +982,7 @@ class Subject:
                 # if not 'tc3' == kk:
                 f2.add_contours(
                   mask_collector[kk]['right_mask'],
-                  colors=info.colors[color_selector],
+                  colors=fmrius.info.colors[color_selector],
                   filled=True
                 )
 
@@ -1017,13 +1017,13 @@ class Subject:
 
                 f3.add_contours(
                     mask_collector[kk]['left_mask'],
-                    colors=info.colors[color_selector],
+                    colors=fmrius.info.colors[color_selector],
                     filled=False,
                     linewidths=0.5)
                 legend_patches.append(
                     mpatches.Patch(
                         color=tuple(int(
-                                info.colors[color_selector].strip('#')[i:i+2], 16)/255 for i in (0, 2, 4)),
+                                fmrius.info.colors[color_selector].strip('#')[i:i+2], 16)/255 for i in (0, 2, 4)),
                                 label=color_selector))
 
             for kk in np.array(name_collector_right)[np.argsort(np.multiply(size_collector_left, -1))]:
@@ -1041,7 +1041,7 @@ class Subject:
                 # if not 'tc3' == kk:
                 f3.add_contours(
                   mask_collector[kk]['right_mask'],
-                  colors=info.colors[color_selector],
+                  colors=fmrius.info.colors[color_selector],
                   filled=False,
                   linewidths=1
                 )
@@ -1320,7 +1320,7 @@ class Subject:
                 for rt_, roi_name_ in zip(roi_type, rois)
             )[0]
 
-            out_path_ = opj(info.data_paths.results_dir, subject_type, 'hrf_estimates', self.ID)
+            out_path_ = opj(fmrius.info.data_paths.results_dir, subject_type, 'hrf_estimates', self.ID)
             # creat results folder if not exist
             pathlib.Path(out_path_).mkdir(parents=True, exist_ok=True)
 
@@ -1747,17 +1747,17 @@ class Subject:
             elif con == 'Cubes1Cubes3':
                 roi_name = 'chGFP'
 
-            if not isdir(opj(info.data_paths.rois_dir, 'individual', self.ID)):
-                os.mkdir(opj(info.data_paths.rois_dir, 'individual', self.ID))
-                os.mkdir(opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional'))
-            if not isdir(opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional')):
-                os.mkdir(opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional'))
+            if not isdir(opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID)):
+                os.mkdir(opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID))
+                os.mkdir(opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional'))
+            if not isdir(opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional')):
+                os.mkdir(opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional'))
 
             left_mask.to_filename(
-                opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional',
+                opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional',
                     self.ID+"_"+"task-"+task+"_"+con+"-"+sign+"_fwhm-"+str(fwhm)+"_p"+str(alpha[0])+"-"+str(h_control[0])+"_ROI-mask_"+roi_name+"-left.nii"))
             right_mask.to_filename(
-                opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional',
+                opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional',
                     self.ID+"_"+"task-"+task+"_"+con+"-"+sign+"_fwhm-"+str(fwhm)+"_p"+str(alpha[1])+"-"+str(h_control[1])+"_ROI-mask_"+roi_name+"-right.nii"))
 
             # store as pdf
@@ -1768,7 +1768,7 @@ class Subject:
 
             fig = plotting.plot_glass_brain(r_img)
             fig.savefig(
-                opj(info.data_paths.rois_dir, 'individual', self.ID, 'functional',
+                opj(fmrius.info.data_paths.rois_dir, 'individual', self.ID, 'functional',
                     self.ID+"_"+"task-"+task+"_"+con+"-"+sign+"_fwhm-"+str(fwhm)+"_p"+str(alpha)+"-"+str(h_control)+"_ROI-mask_"+roi_name+".pdf"))
             fig.close()
 
@@ -2548,7 +2548,7 @@ class Subject:
 
                 #
                 # iterate decoding pairs (pairs of conditions) specified in info.py
-                for dp_ in info.decoding_pairs[task_].keys():
+                for dp_ in fmrius.info.decoding_pairs[task_].keys():
 
                     try:
 
@@ -2556,8 +2556,8 @@ class Subject:
 
                         #
                         # prepare data
-                        c1_cat = info.decoding_pairs[task_][dp_][0]
-                        c2_cat = info.decoding_pairs[task_][dp_][1]
+                        c1_cat = fmrius.info.decoding_pairs[task_][dp_][0]
+                        c2_cat = fmrius.info.decoding_pairs[task_][dp_][1]
 
                         conditions_series = pd.Series(
                             self.multivariate.data.conditions)
@@ -2660,7 +2660,7 @@ class Subject:
 
             #
             # load contrast dict for figure titles
-            contrast_dict = info.get_contrast_dict(task.split('_')[0])
+            contrast_dict = fmrius.info.get_contrast_dict(task.split('_')[0])
 
             #
             # load anatomical image for background
@@ -2748,7 +2748,7 @@ class Subject:
 
                         display.add_contours(
                             gfp_kira_thr,
-                            colors=info.colors['Marquardt2017'],
+                            colors=fmrius.info.colors['Marquardt2017'],
                             alpha=1,
                             levels=[0],
                             linewidths=1.2)
@@ -2767,7 +2767,7 @@ class Subject:
 
                         display.add_contours(
                             image.math_img('abs(img)', img=thresholded_map_mt),
-                            colors=info.colors['MTloc'],
+                            colors=fmrius.info.colors['MTloc'],
                             alpha=1,
                             levels=[0],
                             linewidths=1.2)
@@ -2842,7 +2842,7 @@ class Subject:
 
 
                 if store_:
-                    pdf_dir_ = opj(info.data_paths.results_dir,
+                    pdf_dir_ = opj(fmrius.info.data_paths.results_dir,
                                    'from_nilearn/univariate_contrasts',
                                    self.ID,
                                    'pdfs',
@@ -2882,7 +2882,7 @@ class Subject:
         activated_regions = {}
         for task in figure_dict:
 
-            contrast_dict = info.get_contrast_dict(task.split('_')[0])
+            contrast_dict = fmrius.info.get_contrast_dict(task.split('_')[0])
             anat_img = self.info.anat.img
 
             # f, ax = plt.subplots(2*np.size(con_list), 1,
