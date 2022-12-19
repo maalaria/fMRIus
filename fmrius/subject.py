@@ -1,7 +1,7 @@
 import os.path
 
-from .info import info
-from .modeling.nilearn import first_level
+import fmrius.info
+# from .modeling.nilearn import first_level
 
 
 from sklearn.utils import Bunch
@@ -686,9 +686,9 @@ class Subject:
 
                 ###
                 left_mask = image.load_img(
-                  '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/src/ROIs/other/Marquardt-2017_GFP_ROI-mask_left.nii.gz')
+                  '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/fmrius/ROIs/other/Marquardt-2017_GFP_ROI-mask_left.nii.gz')
                 right_mask = image.load_img(
-                  '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/src/ROIs/other/Marquardt-2017_GFP_ROI-mask_right.nii.gz')
+                  '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/fmrius/ROIs/other/Marquardt-2017_GFP_ROI-mask_right.nii.gz')
                 left_arr = left_mask.get_fdata()
                 right_arr = right_mask.get_fdata()
                 img_name = 'Marquardt-2017_GFP'
@@ -2774,9 +2774,9 @@ class Subject:
 
                     if figure_dict[task][con]['plot_ns_MT']:
                         ns_visual_motion_left = image.load_img(
-                            '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/src/ROIs/neurosynth/visual-motion_MT_thrs-None-100_left.nii.gz')
+                            '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/fmrius/ROIs/neurosynth/visual-motion_MT_thrs-None-100_left.nii.gz')
                         ns_visual_motion_right = image.load_img(
-                            '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/src/ROIs/neurosynth/visual-motion_MT_thrs-None-100_right.nii.gz')
+                            '/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/fmrius/ROIs/neurosynth/visual-motion_MT_thrs-None-100_right.nii.gz')
                         display.add_contours(
                             ns_visual_motion_left,
                             colors='w',

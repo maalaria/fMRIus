@@ -16,7 +16,7 @@ from nilearn.interfaces import fmriprep
 
 
 # sys.path.append('/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/python')
-# from .src.info import info
+# from .fmrius.info import info
 # import helpers as myHelpers
 
 
