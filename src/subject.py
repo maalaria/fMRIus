@@ -92,7 +92,7 @@ class Subject:
 
         if os.path.isdir(results_dir):
 
-            sub_dirs = listdir(results_dir)
+            sub_dirs = [el for el in listdir(results_dir) if el[0] != '.']
 
             for sub_result in sub_dirs:
 
@@ -1513,7 +1513,7 @@ class Subject:
         # (these will be the subjects individual session masks, when run specific masks are computed)
         if ref_img == 'Marquardt2017':
             left_ref = np.array([14.85, 20.2375, 27.6])  #
-            right_ref = np.array([50.36507937, 22.82539683, 24.85714286])  # 
+            right_ref = np.array([50.36507937, 22.82539683, 24.85714286])  #
         elif ref_img == 'MTloc':
             left_ref = np.array([17.33057851, 20.76584022, 27.16253444]) ### center coordinates of 'visual motion' in neurosynth
             right_ref = np.array([47.4083045 , 21.7716263 , 27.41176471])

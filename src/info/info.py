@@ -71,8 +71,8 @@ data_paths = Bunch(
     fmriprep_dir='/media/marius/data_ex/gaze-motion/derivatives/fmriprep',
     lisa_dir="/media/marius/data_ex/gaze-motion/derivatives/lisa",
     scratch_dir='/media/marius/data_ex/gaze-motion/derivatives/scratch',
-    results_dir='/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/results',
-    rois_dir='/home/marius/ownCloud/PhD/projects/scientific/gaze-motion/analysis/gm_analysis/src/ROIs/',
+    results_dir='/mnt/fileserv1_neurologie/Research_groups/mgoerner/projects/scientific/gaze-motion/results',
+    rois_dir='/mnt/fileserv1_neurologie/Research_groups/mgoerner/projects/scientific/gaze-motion/analysis/fMRIus/src/ROIs',
 )
 
 

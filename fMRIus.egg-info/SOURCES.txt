@@ -1,0 +1,8 @@
+setup.py
+fMRIus.egg-info/PKG-INFO
+fMRIus.egg-info/SOURCES.txt
+fMRIus.egg-info/dependency_links.txt
+fMRIus.egg-info/not-zip-safe
+fMRIus.egg-info/top_level.txt
+src/__init__.py
+src/subject.py

@@ -7,5 +7,5 @@ setup(name='fMRIus',
       author='Marius Görner',
       author_email='mariusgoerner@gmail.com',
       license='',
-      packages=['fMRIus'],
+      packages=['src'],
       zip_safe=False)
