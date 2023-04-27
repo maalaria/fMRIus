@@ -119,7 +119,39 @@ func_run_dict = {
                                     'MTloc_run-3', 'gic_run-4', 'MTloc_run-4', 'gic_run-5', 'MTloc_run-5',
                                     'gic_run-6', 'MTloc_run-6']
         }
+    },
+    
+    'sub-01': {
+        'ses-sep': {
+            'faceLoc': [],
+            'go': [],
+            'co': [],
+            'experimental_order': []
+        },
+        'ses-com': {
+            'MTloc': ['MTloc_run-1', 'MTloc_run-2', 'MTloc_run-3', 'MTloc_run-4', 'MTloc_run-5', 'MTloc_run-6'],
+            'gic': ['gic_run-1', 'gic_run-2', 'gic_run-3', 'gic_run-4', 'gic_run-5', 'gic_run-6', 'gic_run-7'],
+            'experimental_order': ['gic_run-1', 'gic_run-2', 'MTloc_run-1', 'gic_run-3', 'gic_run-4', 'MTloc_run-2', 
+                                    'MTloc_run-3', 'gic_run-5', 'MTloc_run-4', 'MTloc_run-5',
+                                    'gic_run-6', 'MTloc_run-6', 'gic_run-7']
+        }
+    },
+    
+    'sub-02': {
+        'ses-sep': {
+            'faceLoc': [],
+            'go': [],
+            'co': [],
+            'experimental_order': []
+        },
+        'ses-com': {
+            'MTloc': ['MTloc_run-1', 'MTloc_run-2', 'MTloc_run-3', 'MTloc_run-4'],
+            'gic': ['gic_run-1', 'gic_run-2', 'gic_run-3', 'gic_run-4', 'gic_run-5', 'gic_run-6', 'gic_run-7'],
+            'experimental_order': ['gic_run-1', 'MTloc_run-1', 'gic_run-2', 'MTloc_run-2', 'gic_run-3', 'MTloc_run-3', 'gic_run-4',  
+                                    'gic_run-5', 'MTloc_run-4', 'gic_run-6', 'gic_run-7']
+        }
     }
+    
 }
 
 # func_run_dict = {
